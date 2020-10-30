@@ -2,7 +2,19 @@
     <div class="orders">
         
         <div class="container">
-            <h3>Orders Page</h3>
+            <div class="intro h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    <div class="col-md-6">
+                        <h3>Orders Page</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos numquam tempora, iure delectus
+                            totam minus quam aperiam ratione dolores magni voluptates ut necessitatibus odio ipsum fuga,
+                            voluptas ab praesentium nihil?</p>
+                    </div>
+                    <div class="col-md-6 mt-5">
+                        <img src="/img/svg/orders.svg" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
         </div>
         
     </div>
