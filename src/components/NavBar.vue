@@ -24,8 +24,7 @@
 
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2" type="submit">Search</button>
+                        <a class="btn btn-outline-success my-1 py-2 px-5" type="submit" data-toggle="modal" data-target="#login">Get Started</a>
                     </form>
                 </div>
             </div>
@@ -37,9 +36,7 @@
 <script>
     export default {
         name: 'NavBar',
-        props: {
-            msg: String
-        }
+        props: {}
     }
 </script>
 
