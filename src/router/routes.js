@@ -9,7 +9,7 @@ import Overview from '../components/Overview.vue'
 import Products from '../components/Products.vue'
 import Orders from '../components/Orders.vue'
 
-import {firebase} from '../firebase'
+import {fb} from '../firebase'
 
 Vue.use(VueRouter);
 
@@ -54,7 +54,7 @@ const router = new VueRouter({
  
 router.beforeEach((to, from, next) => {
     var requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-    var currentUser = firebase.auth().currentUser
+    var currentUser = fb.auth().currentUser
 
     if (requiresAuth && !currentUser) {
         next('/')

@@ -85,7 +85,7 @@
 </template>
 
 <script>
-    import {firebase} from '../firebase'
+    import {fb} from '../firebase'
 
     export default {
         name: 'Admin',
@@ -93,7 +93,7 @@
         },
         methods: {
             logout() {
-                firebase.auth().signOut()
+                fb.auth().signOut()
                 .then(() => {
                     this.$router.replace('/')
                 })

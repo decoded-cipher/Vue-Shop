@@ -84,9 +84,7 @@
 </template>
 
 <script>
-    import {
-        firebase
-    } from '../firebase'
+    import {fb} from '../firebase'
 
     export default {
         name: 'Login',
@@ -100,7 +98,7 @@
         methods: {
 
             login() {
-                firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                fb.auth().signInWithEmailAndPassword(this.email, this.password)
                     .then((user) => {
                         $("#login").modal('hide')
                         this.$router.replace('admin')
@@ -118,7 +116,7 @@
             },
 
             register() {
-                firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                fb.auth().createUserWithEmailAndPassword(this.email, this.password)
                     .then((user) => {
                         $("#login").modal('hide')
                         this.$router.replace('admin')

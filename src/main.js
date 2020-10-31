@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import App from "./App.vue"
 import router from './router/routes'
-import {firebase} from './firebase'
+import {fb} from './firebase'
+import VueFirestore from 'vue-firestore'
+
+Vue.use(VueFirestore)
 
 import 'bootstrap'
 import 'popper.js'
@@ -15,7 +18,7 @@ Vue.component('NavBar', require('./components/NavBar.vue').default);
 Vue.config.productionTip = false
 
 var app = ''
-firebase.auth().onAuthStateChanged(function (user) {
+fb.auth().onAuthStateChanged(function (user) {
   if (!app) {
     new Vue({
       router,
