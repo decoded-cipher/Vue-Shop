@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-primary px-5" >Login</button>
+                                <button class="btn btn-primary px-5" @click="login">Login</button>
                             </div>
 
                         </div>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" v-model="password" class="form-control" id="password"
+                                <input type="password" @keyup.enter="register" v-model="password" class="form-control" id="password"
                                     placeholder="Password">
                             </div>
 
@@ -84,7 +84,9 @@
 </template>
 
 <script>
-    import {firebase} from '../firebase'
+    import {
+        firebase
+    } from '../firebase'
 
     export default {
         name: 'Login',
@@ -96,13 +98,32 @@
             }
         },
         methods: {
+
+            login() {
+                firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                    .then((user) => {
+                        $("#login").modal('hide')
+                        this.$router.replace('admin')
+                    })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === 'auth/wrong-password') {
+                            alert('Wrong password.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                    });
+            },
+
             register() {
                 firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-                .then((user) => {
-                    $("#login").modal('hide')
-                    this.$router.replace('admin')
-                })
-                    .catch(function (error) {
+                    .then((user) => {
+                        $("#login").modal('hide')
+                        this.$router.replace('admin')
+                    })
+                    .catch((error) => {
                         // Handle Errors here.
                         var errorCode = error.code;
                         var errorMessage = error.message;
@@ -114,6 +135,7 @@
                         console.log(error);
                     });
             }
+
         }
     }
 </script>
