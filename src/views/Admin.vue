@@ -60,10 +60,10 @@
                                 </router-link>
                             </li>
                             <li>
-                                <router-link to="/admin/logout">
+                                <a href="#" @click="logout()">
                                     <i class="fa fa-power-off"></i>
                                     <span class="menu-text">Logout</span>
-                                </router-link>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -85,12 +85,22 @@
 </template>
 
 <script>
-    // @ is an alias to /src
+    import {firebase} from '../firebase'
 
     export default {
         name: 'Admin',
         components: {
-
+        },
+        methods: {
+            logout() {
+                firebase.auth().signOut()
+                .then(() => {
+                    this.$router.replace('/')
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
         }
     };
 </script>
