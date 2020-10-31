@@ -9,42 +9,59 @@ import Overview from '../components/Overview.vue'
 import Products from '../components/Products.vue'
 import Orders from '../components/Orders.vue'
 
+import {firebase} from '../firebase'
+
 Vue.use(VueRouter);
 
-export default new VueRouter({
-    routes: [
+const router = new VueRouter({
+    routes: [{
+            path: '/',
+            name: 'Home',
+            component: Home
+        },
         {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: About
-    },
-    {
-        path: '/admin',
-        name: 'Admin',
-        component: Admin,
-        children: [
-            {
-                path: 'overview',
-                name: 'Overview',
-                component: Overview
+            path: '/about',
+            name: 'About',
+            component: About
+        },
+        {
+            path: '/admin',
+            name: 'Admin',
+            meta: {
+                requiresAuth: true
             },
-            {
-                path: 'products',
-                name: 'Products',
-                component: Products
-            },
-            {
-                path: 'orders',
-                name: 'Orders',
-                component: Orders
-            }
-        ]
-    }
-],
+            component: Admin,
+            children: [{
+                    path: 'overview',
+                    name: 'Overview',
+                    component: Overview
+                },
+                {
+                    path: 'products',
+                    name: 'Products',
+                    component: Products
+                },
+                {
+                    path: 'orders',
+                    name: 'Orders',
+                    component: Orders
+                }
+            ]
+        }
+    ],
     mode: 'history'
 })
+
+router.beforeEach((to, from, next) => {
+    var requiresAuth = to.matched.some(x => x.meta.requiresAuth)
+    var currentUser = firebase.auth().currentUser
+
+    if (requiresAuth && !currentUser) {
+        next('/')
+    } else if (requiresAuth && currentUser) {
+        next()
+    } else {
+        next()
+    }
+})
+export default router;
