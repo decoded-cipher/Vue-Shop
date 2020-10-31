@@ -10,6 +10,9 @@ import 'bootstrap'
 import 'popper.js'
 import './assets/app.scss'
 
+import Swal from 'sweetalert2'
+window.Swal = Swal
+
 import jQuery from 'jquery'
 window.$ = window.jQuery = jQuery
 

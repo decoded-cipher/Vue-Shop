@@ -29,11 +29,20 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Price</th>
+                                <th>Description</th>
                                 <th>Modify</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            <tr v-for="product in products">
+                                <td>{{product.name}}</td>
+                                <td>{{product.price}}</td>
+                                <td>{{product.description}}</td>
+                                <td>
+                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-danger ml-3" @click="deleteProduct(product)">Delete</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -63,7 +72,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <textarea rows="10" type="text" placeholder="Product Description" class="form-control" v-model="product.description"></textarea>
+                                    <textarea rows="10" type="text" placeholder="Product Description"
+                                        class="form-control" v-model="product.description"></textarea>
                                 </div>
                             </div>
                             <!-- product sidebar -->
@@ -72,11 +82,13 @@
                                 <hr>
 
                                 <div class="form-group">
-                                    <input type="text" placeholder="Product price" v-model="product.price" class="form-control">
+                                    <input type="text" placeholder="Product price" v-model="product.price"
+                                        class="form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" placeholder="Product tags" v-model="product.tag" class="form-control">
+                                    <input type="text" placeholder="Product tags" v-model="product.tag"
+                                        class="form-control">
 
                                     <!-- <div class="d-flex">
                                         <p>
@@ -119,8 +131,13 @@
 </template>
 
 <script>
-import { firestore } from 'firebase'
-    import { fb,db } from '../firebase'
+    import {
+        firestore
+    } from 'firebase'
+    import {
+        fb,
+        db
+    } from '../firebase'
 
     export default {
         name: 'Products',
@@ -148,6 +165,28 @@ import { firestore } from 'firebase'
             },
             addProduct() {
                 this.$firestore.products.add(this.product)
+                $("#product").modal('hide')
+            },
+            deleteProduct(doc) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // console.log(doc['.key']);
+                        this.$firestore.products.doc(doc['.key']).delete()
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
             }
         }
     }
