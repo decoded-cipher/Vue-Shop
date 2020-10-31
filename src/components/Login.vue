@@ -19,6 +19,8 @@
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
+
+                        <!-- Login Modal -->
                         <div class="tab-pane fade show active" id="pills-login" role="tabpanel"
                             aria-labelledby="pills-login-tab">
 
@@ -41,6 +43,9 @@
                             </div>
 
                         </div>
+
+
+                        <!-- SignUp Modal -->
                         <div class="tab-pane fade" id="pills-register" role="tabpanel"
                             aria-labelledby="pills-register-tab">
 
@@ -59,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" v-model="password" class="form-control" id="password"
+                                <input type="password" @keyup.enter="register" v-model="password" class="form-control" id="password"
                                     placeholder="Password">
                             </div>
 
@@ -68,8 +73,8 @@
                             </div>
 
                         </div>
-                    </div>
 
+                    </div>
 
                 </div>
             </div>
@@ -79,9 +84,57 @@
 </template>
 
 <script>
+    import {fb} from '../firebase'
+
     export default {
         name: 'Login',
-        props: {}
+        data() {
+            return {
+                name: null,
+                email: null,
+                password: null
+            }
+        },
+        methods: {
+
+            login() {
+                fb.auth().signInWithEmailAndPassword(this.email, this.password)
+                    .then((user) => {
+                        $("#login").modal('hide')
+                        this.$router.replace('admin')
+                    })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === 'auth/wrong-password') {
+                            alert('Wrong password.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                    });
+            },
+
+            register() {
+                fb.auth().createUserWithEmailAndPassword(this.email, this.password)
+                    .then((user) => {
+                        $("#login").modal('hide')
+                        this.$router.replace('admin')
+                    })
+                    .catch((error) => {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode == 'auth/weak-password') {
+                            alert('The password is too weak.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                    });
+            }
+
+        }
     }
 </script>
 
