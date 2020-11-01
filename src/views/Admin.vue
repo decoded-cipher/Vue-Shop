@@ -96,6 +96,10 @@
                 fb.auth().signOut()
                 .then(() => {
                     this.$router.replace('/')
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Logged Out Successfully'
+                    })
                 })
                 .catch((err) => {
                     console.log(err);

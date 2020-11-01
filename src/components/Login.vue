@@ -102,12 +102,20 @@
                     .then((user) => {
                         $("#login").modal('hide')
                         this.$router.replace('admin')
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Logged In Successfully!'
+                        })
                     })
                     .catch((error) => {
                         var errorCode = error.code;
                         var errorMessage = error.message;
                         if (errorCode === 'auth/wrong-password') {
-                            alert('Wrong password.');
+                            // alert('Wrong password.');
+                            Toast.fire({
+                                icon: 'warning',
+                                title: 'Enter valid Username and Password!'
+                            })
                         } else {
                             alert(errorMessage);
                         }
@@ -120,13 +128,21 @@
                     .then((user) => {
                         $("#login").modal('hide')
                         this.$router.replace('admin')
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Signed In Successfully'
+                        })
                     })
                     .catch((error) => {
                         // Handle Errors here.
                         var errorCode = error.code;
                         var errorMessage = error.message;
                         if (errorCode == 'auth/weak-password') {
-                            alert('The password is too weak.');
+                            // alert('The password is too weak.');
+                            Toast.fire({
+                                icon: 'warning',
+                                title: 'The Password is too weak!'
+                            })
                         } else {
                             alert(errorMessage);
                         }
