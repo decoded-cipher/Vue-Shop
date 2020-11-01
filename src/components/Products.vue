@@ -53,7 +53,7 @@
 
         <!-- Modal -->
         <div class="modal fade" id="product" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editLabel" v-if="modal == 'edit'">Edit Product</h5>
@@ -194,6 +194,7 @@
             editProduct(product) {
                 this.modal = 'edit'
                 this.product = product
+                // this.activeItem = product.id
                 $("#product").modal('show')
             },
             updateProduct(product) {
