@@ -21,7 +21,7 @@
 
             <div class="product-test mb-5">
                 <h3 class="d-inline-block">Product List</h3>
-                <button @click="addNew" class="btn btn-primary float-right px-5 py-2 mb-2">Add Product</button>
+                <button @click="addNew()" class="btn btn-primary float-right px-5 py-2 mb-2">Add Product</button>
                 <div class="table-responsive">
                     <table class="table">
 
@@ -39,7 +39,7 @@
                                 <td>{{product.price}}</td>
                                 <td>{{product.description}}</td>
                                 <td>
-                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-primary" @click="editProduct(product)">Edit Product</button>
                                     <button class="btn btn-danger ml-3" @click="deleteProduct(product)">Delete</button>
                                 </td>
                             </tr>
@@ -56,7 +56,8 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editLabel">Edit Product</h5>
+                        <h5 class="modal-title" id="editLabel" v-if="modal == 'edit'">Edit Product</h5>
+                        <h5 class="modal-title" id="editLabel" v-if="modal == 'new'">Add New Product</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -119,7 +120,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button @click="addProduct()" type="button" class="btn btn-primary">Save Changes</button>
+                        <button @click="addProduct()" type="button" class="btn btn-primary" v-if="modal == 'new'">Save Changes</button>
+                        <button @click="updateProduct()" type="button" class="btn btn-primary" v-if="modal == 'edit'">Apply Changes</button>
                     </div>
                 </div>
             </div>
@@ -131,13 +133,8 @@
 </template>
 
 <script>
-    import {
-        firestore
-    } from 'firebase'
-    import {
-        fb,
-        db
-    } from '../firebase'
+    import { firestore } from 'firebase'
+    import { fb, db } from '../firebase'
 
     export default {
         name: 'Products',
@@ -151,7 +148,8 @@
                     tag: null,
                     Image: null
                 },
-                activeItem: null
+                activeItem: null,
+                modal: null
             }
         },
         firestore() {
@@ -161,13 +159,18 @@
         },
         methods: {
             addNew() {
+                this.modal = 'new'
                 $("#product").modal('show')
             },
             addProduct() {
                 this.$firestore.products.add(this.product)
                 $("#product").modal('hide')
+                Toast.fire({
+                    icon: 'success',
+                    title: 'New Product Added Successfully'
+                })
             },
-            deleteProduct(doc) {
+            deleteProduct(product) {
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -178,14 +181,28 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // console.log(doc['.key']);
-                        this.$firestore.products.doc(doc['.key']).delete()
+                        // console.log(product.id);
+                        this.$firestore.products.doc(product.id).delete()
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
                             'success'
                         )
                     }
+                })
+            },
+            editProduct(product) {
+                this.modal = 'edit'
+                this.product = product
+                $("#product").modal('show')
+            },
+            updateProduct(product) {
+                this.$firestore.products.doc(this.product.id).update(this.product)
+                $("#product").modal('hide')
+                // console.log('Updated Item');
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Product Updated Successfully'
                 })
             }
         }
