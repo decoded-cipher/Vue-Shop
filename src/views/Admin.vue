@@ -47,6 +47,13 @@
                                     <i class="fa fa-chart-line"></i>
                                     <span class="menu-text">Overview</span>
                                 </router-link>
+                            </li>
+                            <li>
+                                <router-link to="/admin/profile">
+                                    <i class="fa fa-user"></i>
+                                    <span class="menu-text">Profile</span>
+                                </router-link>
+                            </li>
                             <li>
                                 <router-link to="/admin/products">
                                     <i class="fab fa-amazon"></i>
