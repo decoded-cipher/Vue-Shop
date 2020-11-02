@@ -29,7 +29,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Description</th>
+                                <th>Tags</th>
                                 <th>Modify</th>
                             </tr>
                         </thead>
@@ -37,7 +37,9 @@
                             <tr v-for="product in products">
                                 <td>{{product.name}}</td>
                                 <td>{{product.price}}</td>
-                                <td>{{product.description}}</td>
+                                <td>
+                                    <span class="text-muted p-1" v-for="tag in product.tags">{{tag}}</span>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary" @click="editProduct(product)">Edit Product</button>
                                     <button class="btn btn-danger ml-3" @click="deleteProduct(product)">Delete</button>
@@ -73,8 +75,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <textarea rows="10" type="text" placeholder="Product Description"
-                                        class="form-control" v-model="product.description"></textarea>
+                                    <vue-editor v-model="product.description"></vue-editor>
+                                    <!-- <textarea rows="10" type="text" placeholder="Product Description"
+                                        class="form-control" v-model="product.description"></textarea> -->
                                 </div>
                             </div>
                             <!-- product sidebar -->
@@ -88,21 +91,19 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" placeholder="Product tags" v-model="product.tag"
-                                        class="form-control">
+                                    <input type="text" v-on:keyup.188="addTag()" placeholder="Product tags"
+                                        v-model="tag" class="form-control">
+                                    <!-- <span v-for="tag in this.product.tags">{{tag}} </span> -->
 
-                                    <!-- <div class="d-flex">
-                                        <p>
-                                            <span class="p-1">{{tag}}</span>
-                                        </p>
-
-                                    </div> -->
+                                    <div class="d-flex">
+                                        <span class="text-muted p-1" v-for="tag in this.product.tags">{{tag}}</span>
+                                    </div>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="product_image">Product Images</label>
-                                    <input type="file" class="form-control file-btn">
+                                    <input type="file" @change="uploadImage" class="form-control file-btn">
                                 </div>
 
                                 <!-- <div class="form-group d-flex">
@@ -120,8 +121,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button @click="addProduct()" type="button" class="btn btn-primary" v-if="modal == 'new'">Save Changes</button>
-                        <button @click="updateProduct()" type="button" class="btn btn-primary" v-if="modal == 'edit'">Apply Changes</button>
+                        <button @click="addProduct()" type="button" class="btn btn-primary" v-if="modal == 'new'">Save
+                            Changes</button>
+                        <button @click="updateProduct()" type="button" class="btn btn-primary"
+                            v-if="modal == 'edit'">Apply Changes</button>
                     </div>
                 </div>
             </div>
@@ -133,11 +136,22 @@
 </template>
 
 <script>
-    import { firestore } from 'firebase'
-    import { fb, db } from '../firebase'
+    import {
+        VueEditor
+    } from "vue2-editor";
+    import {
+        firestore
+    } from 'firebase'
+    import {
+        fb,
+        db
+    } from '../firebase'
 
     export default {
         name: 'Products',
+        components: {
+            VueEditor
+        },
         data() {
             return {
                 products: [],
@@ -145,11 +159,12 @@
                     name: null,
                     description: null,
                     price: null,
-                    tag: null,
-                    Image: null
+                    image: null,
+                    tags: [],
                 },
                 activeItem: null,
-                modal: null
+                modal: null,
+                tag: null
             }
         },
         firestore() {
@@ -205,6 +220,34 @@
                     icon: 'success',
                     title: 'Product Updated Successfully'
                 })
+            },
+            addTag() {
+                console.log('Pressing Comma');
+                this.product.tags.push(this.tag)
+                this.tag = ""
+            },
+            uploadImage(e) {
+                console.log(e.target.files[0]);
+                var file = e.target.files[0];
+                var storageRef = fb.storage().ref('products/' + file.name);
+                var uploadTask = storageRef.put(file)
+
+
+
+                uploadTask.on('state_changed', (snapshot) => {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                }, (error) => {
+                    // Handle unsuccessful uploads
+                }, () => {
+                    // Handle successful uploads on complete
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+                        this.product.image = downloadURL
+                    });
+                });
+
+
             }
         }
     }
@@ -212,6 +255,6 @@
 
 <style scoped lang="scss">
     .file-btn {
-        height: 45px
+        height: 45px;
     }
 </style>
