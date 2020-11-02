@@ -30,6 +30,7 @@
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Tags</th>
+                                <th>Image</th>
                                 <th>Modify</th>
                             </tr>
                         </thead>
@@ -38,7 +39,10 @@
                                 <td>{{product.name}}</td>
                                 <td>{{product.price}}</td>
                                 <td>
-                                    <span class="text-muted p-1" v-for="tag in product.tags">{{tag}}</span>
+                                    <span v-for="tag in product.tags">{{tag}} </span>
+                                </td>
+                                <td>
+                                    <span class="form-img mx-2" v-for="image in product.images"><img :src="image" alt=""></span>
                                 </td>
                                 <td>
                                     <button class="btn btn-primary" @click="editProduct(product)">Edit Product</button>
@@ -108,7 +112,9 @@
                                 <div class="form-group d-flex">
                                     <div class="form-img mx-2" v-for="image in product.images">
                                         <img :src="image" alt="">
-                                        <!-- <span class="delete-img" @click="deleteImage(image,index)">X</span> -->
+                                        <button type="button" class="close" aria-label="Close">
+                                            <span aria-hidden="true" @click="deleteImage(image,index)">&times;</span>
+                                        </button>
                                     </div>
                                 </div>
 
@@ -170,8 +176,18 @@
             }
         },
         methods: {
+            reset() {
+                this.product = {
+                    name: null,
+                    description: null,
+                    price: null,
+                    images: [],
+                    tags: []
+                }
+            },
             addNew() {
                 this.modal = 'new'
+                this.reset()
                 $("#product").modal('show')
             },
             addProduct() {
@@ -245,8 +261,17 @@
                     });
 
                 }
-            }
-            
+            },
+            deleteImage(img, index) {
+                let image = fb.storage().refFromURL(img);
+                this.product.images.splice(index, 1);
+                image.delete().then(() => {
+                    console.log('Image Deleted');
+                }).catch((error) => {
+                    console.log('Error!');
+                });
+            },
+
         }
     }
 </script>
