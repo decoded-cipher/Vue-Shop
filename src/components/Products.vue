@@ -100,20 +100,17 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <label for="product_image">Product Images</label>
                                     <input type="file" @change="uploadImage" class="form-control file-btn">
                                 </div>
 
-                                <!-- <div class="form-group d-flex">
-                                    <div>
-                                        <div class="img-wrapp">
-                                            <img :src="image" alt="" width="80px">
-                                            <span class="delete-img" @click="deleteImage(image,index)">X</span>
-                                        </div>
+                                <div class="form-group d-flex">
+                                    <div class="form-img mx-2" v-for="image in product.images">
+                                        <img :src="image" alt="">
+                                        <!-- <span class="delete-img" @click="deleteImage(image,index)">X</span> -->
                                     </div>
-                                </div> -->
+                                </div>
 
                             </div>
                         </div>
@@ -159,7 +156,7 @@
                     name: null,
                     description: null,
                     price: null,
-                    image: null,
+                    images: [],
                     tags: [],
                 },
                 activeItem: null,
@@ -227,28 +224,29 @@
                 this.tag = ""
             },
             uploadImage(e) {
-                console.log(e.target.files[0]);
-                var file = e.target.files[0];
-                var storageRef = fb.storage().ref('products/' + file.name);
-                var uploadTask = storageRef.put(file)
+                if (e.target.files[0]) {
 
+                    console.log(e.target.files[0]);
+                    var file = e.target.files[0];
+                    var storageRef = fb.storage().ref('products/' + file.name);
+                    var uploadTask = storageRef.put(file)
 
-
-                uploadTask.on('state_changed', (snapshot) => {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                }, (error) => {
-                    // Handle unsuccessful uploads
-                }, () => {
-                    // Handle successful uploads on complete
-                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        console.log('File available at', downloadURL);
-                        this.product.image = downloadURL
+                    uploadTask.on('state_changed', (snapshot) => {
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                    }, (error) => {
+                        // Handle unsuccessful uploads
+                    }, () => {
+                        // Handle successful uploads on complete
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                            console.log('File available at', downloadURL);
+                            this.product.images.push(downloadURL)
+                        });
                     });
-                });
 
-
+                }
             }
+            
         }
     }
 </script>
@@ -256,5 +254,10 @@
 <style scoped lang="scss">
     .file-btn {
         height: 45px;
+    }
+
+    .form-img img {
+        height: 80px;
+        width: auto;
     }
 </style>
