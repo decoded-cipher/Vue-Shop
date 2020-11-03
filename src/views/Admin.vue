@@ -16,7 +16,8 @@
                         </div>
                         <div class="user-info">
                             <span class="user-name"><strong>Admin</strong></span>
-                            <span class="user-role">Administrator</span>
+                            <!-- <span class="user-role">Administrator</span> -->
+                            <span class="user-role">{{email}}</span>
                             <span class="user-status">
                                 <i class="fa fa-circle"></i>
                                 <span>Online</span>
@@ -47,6 +48,13 @@
                                     <i class="fa fa-chart-line"></i>
                                     <span class="menu-text">Overview</span>
                                 </router-link>
+                            </li>
+                            <li>
+                                <router-link to="/admin/profile">
+                                    <i class="fa fa-user"></i>
+                                    <span class="menu-text">Profile</span>
+                                </router-link>
+                            </li>
                             <li>
                                 <router-link to="/admin/products">
                                     <i class="fab fa-amazon"></i>
@@ -91,6 +99,12 @@
         name: 'Admin',
         components: {
         },
+        data() {
+            return{
+                name: null,
+                 email: null
+            }
+        },
         methods: {
             logout() {
                 fb.auth().signOut()
@@ -105,6 +119,10 @@
                     console.log(err);
                 })
             }
+        },
+        created() {
+            var user = fb.auth().currentUser;
+            this.email = user.email;
         }
     };
 </script>

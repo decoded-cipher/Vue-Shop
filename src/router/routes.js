@@ -6,6 +6,7 @@ import About from '../views/About.vue'
 
 import Admin from '../views/Admin.vue'
 import Overview from '../components/Overview.vue'
+import Profile from '../components/Profile.vue'
 import Products from '../components/Products.vue'
 import Orders from '../components/Orders.vue'
 
@@ -35,6 +36,11 @@ const router = new VueRouter({
                     path: 'overview',
                     name: 'Overview',
                     component: Overview
+                },
+                {
+                    path: 'profile',
+                    name: 'profile',
+                    component: Profile
                 },
                 {
                     path: 'products',
