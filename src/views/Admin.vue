@@ -16,7 +16,8 @@
                         </div>
                         <div class="user-info">
                             <span class="user-name"><strong>Admin</strong></span>
-                            <span class="user-role">Administrator</span>
+                            <!-- <span class="user-role">Administrator</span> -->
+                            <span class="user-role">{{email}}</span>
                             <span class="user-status">
                                 <i class="fa fa-circle"></i>
                                 <span>Online</span>
@@ -98,6 +99,12 @@
         name: 'Admin',
         components: {
         },
+        data() {
+            return{
+                name: null,
+                 email: null
+            }
+        },
         methods: {
             logout() {
                 fb.auth().signOut()
@@ -112,6 +119,10 @@
                     console.log(err);
                 })
             }
+        },
+        created() {
+            var user = fb.auth().currentUser;
+            this.email = user.email;
         }
     };
 </script>

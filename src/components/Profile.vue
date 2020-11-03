@@ -11,7 +11,7 @@
                             voluptas ab praesentium nihil?</p>
                     </div>
                     <div class="col-md-6 mt-5">
-                        <img src="/img/svg/profile.svg" alt="" class="img-fluid">
+                        <img src="/img/svg/profile.svg" width="400" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -42,35 +42,35 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" name="" placeholder="Full name"
+                                        <input type="text" name="" v-model="profile.name" placeholder="Full name"
                                             class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Phone"
+                                        <input type="text" v-model="profile.phone" placeholder="Phone"
                                             class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Address"
+                                        <input type="text" v-model="profile.address" placeholder="Address"
                                             class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Postcode"
+                                        <input type="text" v-model="profile.postCode" placeholder="Postcode"
                                             class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="submit" value="Save Changes"
+                                        <input type="submit" @click="updateProfile()" value="Save Changes"
                                             class="btn btn-primary w-100">
                                     </div>
                                 </div>
@@ -142,9 +142,42 @@
 </template>
 
 <script>
+    import { fb, db } from '../firebase'
+
     export default {
         name: 'Profile',
-        props: {}
+        data() {
+            return {
+                profile: {
+                    name: null,
+                    phone: null,
+                    address: null,
+                    postCode: null
+                },
+
+                account: {
+                    name: null,
+                    email: null,
+                    photoUrl: null,
+                    emailVerified: null,
+                    password: null,
+                    confirmPassword: null,
+                    uid: null
+                }
+            }
+        },
+        firestore() {
+            var user = fb.auth().currentUser;
+            // console.log(user.uid);
+            return {
+                profile: db.collection('profiles').doc(user.uid)
+            }
+        },
+        methods: {
+            updateProfile() {
+                this.$firestore.profile.update(this.profile)
+            }
+        }
     }
 </script>
 
