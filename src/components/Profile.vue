@@ -184,7 +184,7 @@
                     // console.log("Email Send:");
                     Toast.fire({
                         icon: 'success',
-                        title: 'Reset Password Email Send'
+                        title: 'Email to Reset Password has been sent'
                     })
                 }).catch((error) => {
                     console.log(error);
