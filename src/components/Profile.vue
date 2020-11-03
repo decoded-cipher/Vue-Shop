@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="button" value="Reset password email"
+                                        <input type="button" @click="resetPassword()" value="Reset password through Email"
                                             class="btn btn-success w-100">
                                     </div>
                                 </div>
@@ -176,6 +176,19 @@
         methods: {
             updateProfile() {
                 this.$firestore.profile.update(this.profile)
+            },
+            resetPassword() {
+                var auth = fb.auth();
+                console.log(auth.currentUser);
+                auth.sendPasswordResetEmail(auth.currentUser.email).then(() => {
+                    // console.log("Email Send:");
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Reset Password Email Send'
+                    })
+                }).catch((error) => {
+                    console.log(error);
+                });
             }
         }
     }
