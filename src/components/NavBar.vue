@@ -25,6 +25,9 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <a class="btn btn-outline-success my-1 py-2 px-5" type="submit" data-toggle="modal" data-target="#login">Get Started</a>
+                        <a class="btn btn-outline-info border-0 my-1 py-2 px-3 mx-2" data-toggle="modal" data-target="#miniCart">
+                            <i class="fas fa-cart-plus"></i>
+                        </a>
                     </form>
                 </div>
             </div>
