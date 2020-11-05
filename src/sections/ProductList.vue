@@ -17,11 +17,9 @@
               <h5 class="card-title">{{ product.name }}</h5>
               <h6 class="text-muted">₹ {{ product.price }}</h6>
               <p class="card-text" v-html="product.description"></p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
+              <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
 
-              <!-- <add-to-cart :image="getImage(product.images)" :p-id="product.id" :price="product.price"
-                :name="product.name">
-              </add-to-cart> -->
+              <add-to-cart :image="getImage(product.images)" :p-id="product.id" :price="product.price" :name="product.name"></add-to-cart>
             </div>
           </div>
         </div>
@@ -39,7 +37,7 @@
 
 
   export default {
-    name: "Products-list",
+    name: "ProductsList",
     props: {
       msg: String
     },
