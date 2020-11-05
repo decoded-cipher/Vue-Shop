@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import App from "./App.vue"
 import router from './router/routes'
+import store from './store.js'
 import {
   fb
 } from './firebase'
 
 import VueFirestore from 'vue-firestore'
-
 Vue.use(VueFirestore, {
   key: 'id',
   enumerable: true
@@ -42,6 +42,7 @@ window.$ = window.jQuery = jQuery
 Vue.component('NavBar', require('./components/NavBar.vue').default);
 Vue.component('add-to-cart', require('./components/AddToCart.vue').default);
 Vue.component('ProductsList', require('./sections/ProductList.vue').default);
+Vue.component('MiniCart', require('./components/MiniCart.vue').default);
 
 Vue.config.productionTip = false
 
@@ -50,6 +51,7 @@ fb.auth().onAuthStateChanged(function (user) {
   if (!app) {
     new Vue({
       router,
+      store,
       render: h => h(App),
     }).$mount('#app')
   }

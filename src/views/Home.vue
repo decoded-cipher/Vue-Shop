@@ -21,7 +21,8 @@
         </div>
       </div>
     </div>
-      <Login></Login>
+    <Login></Login>
+    <MiniCart></MiniCart>
   </div>
 </template>
 

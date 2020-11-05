@@ -1,14 +1,14 @@
 <template>
-  <div class="add-to-cart">
+  <div class="addToCart">
    
-        <button class="btn btn-primary" @click="addToCart"> Add to Cart </button>
+        <button class="btn btn-primary" @click="addToCart()"> Add to Cart </button>
     
   </div>
 </template>
 
 <script>
 export default {
-  name: "add-to-cart",
+  name: "addToCart",
   props: {
     name: String,
     price: String,
@@ -33,7 +33,6 @@ export default {
       $('#miniCart').modal('show');
       this.$store.commit('addToCart', this.item)
     }
-
   }
 
 };
