@@ -32,7 +32,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
-            <button type="button" class="btn btn-primary">Checkout</button>
+            <button type="button" @click="checkout()" class="btn btn-primary">Checkout</button>
           </div>
         </div>
       </div>
