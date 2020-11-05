@@ -3,8 +3,9 @@ import VueRouter from "vue-router";
 
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-
+import Checkout from '../views/Checkout.vue'
 import Admin from '../views/Admin.vue'
+
 import Overview from '../components/Overview.vue'
 import Profile from '../components/Profile.vue'
 import Products from '../components/Products.vue'
@@ -53,6 +54,11 @@ const router = new VueRouter({
                     component: Orders
                 }
             ]
+        },
+        {
+            path: '/checkout',
+            name: 'Checkout',
+            component: Checkout
         }
     ],
     mode: 'history'
