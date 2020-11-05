@@ -13,6 +13,9 @@ Vue.use(VueFirestore, {
 })
 // Vue.use(VueFirestore)
 
+import VueCarousel from 'vue-carousel';
+Vue.use(VueCarousel);
+
 import 'bootstrap'
 import 'popper.js'
 import './assets/app.scss'
@@ -37,6 +40,7 @@ import jQuery from 'jquery'
 window.$ = window.jQuery = jQuery
 
 Vue.component('NavBar', require('./components/NavBar.vue').default);
+Vue.component('ProductsList', require('./sections/ProductList.vue').default);
 
 Vue.config.productionTip = false
 
