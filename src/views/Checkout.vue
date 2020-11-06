@@ -25,13 +25,13 @@
 
         <div class="col-md-4 mt-5">
           <h5 class="">
-            <!-- Total Price : {{ this.$store.getters.totalPrice | currency  }} -->
-            Total Price : ₹ 5243
+            Total Price : {{ this.$store.getters.totalPrice }}
+            <!-- Total Price : ₹ 5243 -->
           </h5>
-          <card class='stripe-card' :class='{ complete }' stripe='pk_test_XXXXXXXXXXXXXXXXXXXXXXXX'
-            :options='stripeOptions' @change='complete = $event.complete' />
+          <!-- <card class='stripe-card' :class='{ complete }' stripe='pk_test_XXXXXXXXXXXXXXXXXXXXXXXX'
+            :options='stripeOptions' @change='complete = $event.complete' /> -->
 
-          <button class='pay-with-stripe btn btn-success mt-3 py-2 px-5' @click='pay' :disabled='!complete'>Pay with Credit Card</button>
+          <button class='btn btn-success mt-3 py-2 px-5'>Pay with Credit Card</button>
         </div>
 
       </div>
@@ -45,58 +45,6 @@
 
 <script>
   export default {
-    name: 'Checkout',
-    data() {
-      return {
-        complete: false,
-        stripeOptions: {
-          
-        }
-      }
-    },
-
-    // components: {
-    //   Card
-    // },
-
-    methods: {
-      pay() {
-        createToken().then(data => console.log(data.token))
-      }
-    }
+    name: 'Checkout'
   }
 </script>
-
-<style>
-  /**
- * The CSS shown here will not be introduced in the Quickstart guide, but shows
- * how you can use CSS to style your Element's container.
- */
-  .StripeElement {
-    box-sizing: border-box;
-
-    height: 40px;
-
-    padding: 10px 12px;
-
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background-color: white;
-
-    box-shadow: 0 1px 3px 0 #e6ebf1;
-    -webkit-transition: box-shadow 150ms ease;
-    transition: box-shadow 150ms ease;
-  }
-
-  .StripeElement--focus {
-    box-shadow: 0 1px 3px 0 #cfd7df;
-  }
-
-  .StripeElement--invalid {
-    border-color: #fa755a;
-  }
-
-  .StripeElement--webkit-autofill {
-    background-color: #fefde5 !important;
-  }
-</style>
