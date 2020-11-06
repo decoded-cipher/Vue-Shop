@@ -8,6 +8,19 @@ export default new Vuex.Store({
     state: {
         cart: cart ? JSON.parse(cart) : []
     },
+
+    getters: {
+        totalPrice: state => {
+            var total = 0;
+            state.cart.filter((item) => {
+                // item.productPrice = parseInt(item.productPrice)
+                total += (item.productPrice * item.productQuantity);
+                console.log(item);
+            });
+            return total;
+        }
+    },
+
     mutations: {
         addToCart(state, item) {
 
@@ -20,13 +33,13 @@ export default new Vuex.Store({
             this.commit('saveData');
         },
 
-        saveData(state){
+        saveData(state) {
             window.localStorage.setItem('cart', JSON.stringify(state.cart));
-          },
+        },
 
-          removeFromCart(state, item){
+        removeFromCart(state, item) {
             var index = state.cart.indexOf(item);
-            state.cart.splice(index,1);
+            state.cart.splice(index, 1);
             this.commit('saveData');
         },
     }

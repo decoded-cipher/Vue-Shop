@@ -3,7 +3,9 @@
     <NavBar></NavBar>
     <Hero></Hero>
     <!-- <Products></Products> -->
-    <ProductsList></ProductsList>
+    <div class="products">
+      <ProductsList></ProductsList>
+    </div>
 
     <div class="container h-100">
       <div class="row p-5 h-100 justify-content-center align-items-center">
@@ -38,6 +40,15 @@
       Hero,
       Products,
       Login
-    }
+      }
   };
 </script>
+
+<style scoped lang="scss">
+  .products {
+    background: #f2f2f2;
+    width: 100%;
+    height: 100%;
+    margin: 100px auto;
+  }
+</style>

@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
+import Items from '../views/Items.vue'
 import Checkout from '../views/Checkout.vue'
 import Admin from '../views/Admin.vue'
 
@@ -25,6 +26,11 @@ const router = new VueRouter({
             path: '/about',
             name: 'About',
             component: About
+        },
+        {
+            path: '/products',
+            name: 'Items',
+            component: Items
         },
         {
             path: '/admin',
