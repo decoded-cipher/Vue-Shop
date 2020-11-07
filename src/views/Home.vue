@@ -6,8 +6,8 @@
     <div class="products">
       <ProductsList></ProductsList>
     </div>
+    <About></About>
 
-    
     <Login></Login>
     <MiniCart></MiniCart>
   </div>
@@ -18,13 +18,15 @@
   import Hero from "@/components/Hero.vue";
   import Products from "@/sections/Products.vue";
   import Login from '@/components/Login.vue'
+  import About from "@/components/About.vue";
 
   export default {
     name: "Home",
     components: {
       Hero,
       Products,
-      Login
+      Login,
+      About
       }
   };
 </script>
